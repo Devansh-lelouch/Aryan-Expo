@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF Access Terminal</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for the retro terminal look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the hacker theme */
+        body {
+            font-family: 'VT323', monospace;
+            background-color: #000;
+            color: #00FF00;
+        }
+        /* Canvas for the Matrix effect */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Places the canvas behind all other content */
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1; /* Ensures content is on top of the canvas */
+            background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent background for readability */
+        }
+        .text-glow {
+            text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00, 0 0 15px #00FF00;
+        }
+        .border-glow {
+            box-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00 inset;
+        }
+        .input-field {
+            background-color: #0d0d0d;
+            border: 1px solid #00FF00;
+            caret-color: #00FF00;
+        }
+        .input-field:focus {
+            outline: none;
+            box-shadow: 0 0 8px #00FF00;
+        }
+        .btn-glitch {
+            position: relative;
+            border: 1px solid #00FF00;
+            background-color: #1a1a1a;
+            transition: all 0.3s ease;
+        }
+        .btn-glitch:hover {
+            background-color: #00FF00;
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 20px #00FF00;
+        }
+        /* Hide all pages by default */
+        .page {
+            display: none;
+        }
+        /* Show the active page */
+        .page.active {
+            display: block;
+        }
+        /* Blinking cursor effect */
+        .cursor::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <!-- Canvas for the Matrix background effect -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="w-full max-w-4xl">
+        <!-- Login Page -->
+        <div id="login" class="page active">
+            <div class="border border-green-500 border-glow p-4 md:p-8 rounded-lg content-wrapper">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl mb-4 text-glow cursor">ACCESS TERMINAL</h1>
+                <p class="mb-6 text-green-300">> Status: Awaiting credentials...</p>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label for="username" class="block mb-2 text-lg">> USER_ID</label>
+                        <input type="text" id="username" class="w-full p-2 rounded-md input-field text-lg" required autocomplete="off" value="guest">
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block mb-2 text-lg">> PASSCODE</label>
+                        <input type="password" id="password" class="w-full p-2 rounded-md input-field text-lg" required autocomplete="off" value="password">
+                    </div>
+                    <button type="submit" class="w-full p-3 text-xl btn-glitch rounded-md">
+                        [ INITIATE CONNECTION ]
+                    </button>
+                </form>
+                <div id="login-status" class="mt-4 h-6 text-green-300"></div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page (with your image) -->
+        <div id="dashboard" class="page">
+             <div class="border border-green-500 border-glow p-4 md:p-8 rounded-lg text-center content-wrapper">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl mb-4 text-glow">CONNECTION ESTABLISHED</h1>
+                <p class="mb-6 text-green-300">> Welcome, operator. System access granted.</p>
+                <nav class="flex justify-center gap-4 mb-6">
+                    <a href="#dashboard" class="text-green-400 hover:text-glow">[ HOME ]</a>
+                    <a href="#brouchure" class="text-green-400 hover:text-glow">[ VIEW BROCHURE ]</a>
+                    <a href="#qr" class="text-green-400 hover:text-glow">[ SHOW QR ]</a>
+                </nav>
+                <div class="border border-green-500 p-2 rounded-lg">
+                    <!-- 
+                        !!! IMPORTANT !!!
+                        Replace the 'src' attribute below with the path to your image from GitHub Pages.
+                    -->
+                    <img src="../meme.jpg" 
+                         alt="Dashboard Image" 
+                         class="w-full h-auto rounded-md"
+                         onerror="this.onerror=null;this.src='https://placehold.co/800x600/000000/FF0000?text=Image+Not+Found';">
+                </div>
+                <a href="#login" class="inline-block mt-6 text-red-500 hover:text-red-400 text-lg">[ DISCONNECT ]</a>
+            </div>
+        </div>
+
+        <!-- Brochure Page (with your PDF) -->
+        <div id="brouchure" class="page">
+            <div class="border border-green-500 border-glow p-4 md:p-8 rounded-lg content-wrapper">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl mb-4 text-glow text-center">SECURE DOCUMENT VIEWER</h1>
+                <nav class="flex justify-center gap-4 mb-6">
+                    <a href="#dashboard" class="text-green-400 hover:text-glow">[ HOME ]</a>
+                    <a href="#brouchure" class="text-green-400 hover:text-glow">[ VIEW BROCHURE ]</a>
+                    <a href="#qr" class="text-green-400 hover:text-glow">[ SHOW QR ]</a>
+                </nav>
+                <div class="border border-green-500 p-2 rounded-lg h-[70vh]">
+                     <!-- 
+                        !!! IMPORTANT !!!
+                        Replace the 'src' attribute below with the path to your PDF file from GitHub Pages.
+                    -->
+                    <iframe src="../brochure.pdf" 
+                            class="w-full h-full rounded-md" 
+                            title="Brochure PDF">
+                    </iframe>
+                </div>
+                 <div class="text-center">
+                    <a href="#login" class="inline-block mt-6 text-red-500 hover:text-red-400 text-lg">[ DISCONNECT ]</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code Page -->
+        <div id="qr" class="page">
+            <div class="border border-green-500 border-glow p-4 md:p-8 rounded-lg text-center content-wrapper">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl mb-4 text-glow">DATA PACKET QR</h1>
+                 <nav class="flex justify-center gap-4 mb-6">
+                    <a href="#dashboard" class="text-green-400 hover:text-glow">[ HOME ]</a>
+                    <a href="#brouchure" class="text-green-400 hover:text-glow">[ VIEW BROCHURE ]</a>
+                    <a href="#qr" class="text-green-400 hover:text-glow">[ SHOW QR ]</a>
+                </nav>
+                <div class="flex justify-center">
+                    <div class="border border-green-500 p-4 rounded-lg bg-black inline-block">
+                        <!-- 
+                            !!! IMPORTANT !!!
+                            Replace the 'src' attribute below with the path to your QR code image from GitHub Pages.
+                        -->
+                        <img src="../qr.jpg" 
+                             alt="QR Code" 
+                             class="w-64 h-64 md:w-80 md:h-80 rounded-md"
+                             onerror="this.onerror=null;this.src='https://placehold.co/300x300/000000/FF0000?text=QR+Not+Found';">
+                    </div>
+                </div>
+                 <div class="text-center">
+                    <a href="#login" class="inline-block mt-6 text-red-500 hover:text-red-400 text-lg">[ DISCONNECT ]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * CMatrix/Digital Rain Effect
+         * This function sets up and runs the animation. It's called when the window is fully loaded.
+         */
+        function startMatrixAnimation() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const nums = '01';
+            const hindi = 'क्रिप्टोनाइट';
+            const characters = latin + nums + hindi;
+
+            const fontSize = 16;
+            let columns = Math.floor(canvas.width / fontSize);
+            let drops = [];
+
+            // Function to initialize or reset the drops
+            function initializeDrops() {
+                drops = [];
+                for (let x = 0; x < columns; x++) {
+                    drops[x] = 1;
+                }
+            }
+            initializeDrops();
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#00FF00';
+                ctx.font = fontSize + 'px VT323';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            // Start the animation loop
+            setInterval(draw, 33);
+
+            // Handle window resizing
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                columns = Math.floor(canvas.width / fontSize);
+                initializeDrops();
+            });
+        }
+
+        /**
+         * Page Setup
+         * This function handles the routing and form logic. It runs when the DOM is ready.
+         */
+        function setupPage() {
+            // --- Client-Side Router ---
+            const pages = document.querySelectorAll('.page');
+            function showPage(pageId) {
+                const targetId = pageId ? pageId.substring(1) : 'login';
+                pages.forEach(page => {
+                    page.classList.toggle('active', page.id === targetId);
+                });
+            }
+            window.addEventListener('hashchange', () => showPage(window.location.hash));
+            showPage(window.location.hash); // Show initial page
+            
+            // --- Login Form Logic ---
+            const loginForm = document.getElementById('login-form');
+            const loginStatus = document.getElementById('login-status');
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                let statusText = '> Authenticating...';
+                let i = 0;
+                loginStatus.innerHTML = '';
+                const intervalId = setInterval(() => {
+                    loginStatus.textContent += statusText[i];
+                    i++;
+                    if (i >= statusText.length) {
+                        clearInterval(intervalId);
+                        setTimeout(() => {
+                            loginStatus.textContent = '> Access Granted. Redirecting...';
+                            setTimeout(() => {
+                                window.location.hash = '#dashboard';
+                            }, 1000);
+                        }, 500);
+                    }
+                }, 100);
+            });
+        }
+
+        // Wait for the DOM to be ready for routing/form logic
+        document.addEventListener('DOMContentLoaded', setupPage);
+        // Wait for everything (including fonts) to be loaded for the animation
+        window.addEventListener('load', startMatrixAnimation);
+    </script>
+</body>
+</html>
