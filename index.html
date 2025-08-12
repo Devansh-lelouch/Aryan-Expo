@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CTF Access Terminal</title>
+    <title>Crptonite</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts for the retro terminal look -->
@@ -11,25 +11,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for the hacker theme */
+       
         body {
             font-family: 'VT323', monospace;
             background-color: #000;
             color: #00FF00;
         }
-        /* Canvas for the Matrix effect */
+        
         #matrix-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Places the canvas behind all other content */
+            z-index: -1; 
         }
         .content-wrapper {
             position: relative;
-            z-index: 1; /* Ensures content is on top of the canvas */
-            background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent background for readability */
+            z-index: 1; 
+            background-color: rgba(0, 0, 0, 0.75); 
         }
         .text-glow {
             text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00, 0 0 15px #00FF00;
@@ -58,15 +58,15 @@
             text-shadow: none;
             box-shadow: 0 0 20px #00FF00;
         }
-        /* Hide all pages by default */
+        
         .page {
             display: none;
         }
-        /* Show the active page */
+        
         .page.active {
             display: block;
         }
-        /* Blinking cursor effect */
+        
         .cursor::after {
             content: '_';
             animation: blink 1s step-end infinite;
@@ -77,11 +77,11 @@
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
-    <!-- Canvas for the Matrix background effect -->
+    
     <canvas id="matrix-canvas"></canvas>
 
     <div class="w-full max-w-4xl">
-        <!-- Login Page -->
+       
         <div id="login" class="page active">
             <div class="border border-green-500 border-glow p-4 md:p-8 rounded-lg content-wrapper">
                 <h1 class="text-3xl sm:text-4xl md:text-5xl mb-4 text-glow cursor">ACCESS TERMINAL</h1>
@@ -89,11 +89,11 @@
                 <form id="login-form">
                     <div class="mb-4">
                         <label for="username" class="block mb-2 text-lg">> USER_ID</label>
-                        <input type="text" id="username" class="w-full p-2 rounded-md input-field text-lg" required autocomplete="off" value="guest">
+                        <input type="text" id="username" class="w-full p-2 rounded-md input-field text-lg" required autocomplete="off" >
                     </div>
                     <div class="mb-6">
                         <label for="password" class="block mb-2 text-lg">> PASSCODE</label>
-                        <input type="password" id="password" class="w-full p-2 rounded-md input-field text-lg" required autocomplete="off" value="password">
+                        <input type="password" id="password" class="w-full p-2 rounded-md input-field text-lg" required autocomplete="off" >
                     </div>
                     <button type="submit" class="w-full p-3 text-xl btn-glitch rounded-md">
                         [ INITIATE CONNECTION ]
@@ -103,7 +103,7 @@
             </div>
         </div>
 
-        <!-- Dashboard Page (with your image) -->
+        
         <div id="dashboard" class="page">
              <div class="border border-green-500 border-glow p-4 md:p-8 rounded-lg text-center content-wrapper">
                 <h1 class="text-3xl sm:text-4xl md:text-5xl mb-4 text-glow">CONNECTION ESTABLISHED</h1>
@@ -114,10 +114,7 @@
                     <a href="#qr" class="text-green-400 hover:text-glow">[ SHOW QR ]</a>
                 </nav>
                 <div class="border border-green-500 p-2 rounded-lg">
-                    <!-- 
-                        !!! IMPORTANT !!!
-                        Replace the 'src' attribute below with the path to your image from GitHub Pages.
-                    -->
+                   
                     <img src="./meme.jpg" 
                          alt="Dashboard Image" 
                          class="w-full h-auto rounded-md"
@@ -127,7 +124,7 @@
             </div>
         </div>
 
-        <!-- Brochure Page (with your PDF) -->
+        
         <div id="brouchure" class="page">
             <div class="border border-green-500 border-glow p-4 md:p-8 rounded-lg content-wrapper">
                 <h1 class="text-3xl sm:text-4xl md:text-5xl mb-4 text-glow text-center">SECURE DOCUMENT VIEWER</h1>
@@ -137,10 +134,7 @@
                     <a href="#qr" class="text-green-400 hover:text-glow">[ SHOW QR ]</a>
                 </nav>
                 <div class="border border-green-500 p-2 rounded-lg h-[70vh]">
-                     <!-- 
-                        !!! IMPORTANT !!!
-                        Replace the 'src' attribute below with the path to your PDF file from GitHub Pages.
-                    -->
+                    
                     <iframe src="./brochure.pdf" 
                             class="w-full h-full rounded-md" 
                             title="Brochure PDF">
@@ -163,10 +157,7 @@
                 </nav>
                 <div class="flex justify-center">
                     <div class="border border-green-500 p-4 rounded-lg bg-black inline-block">
-                        <!-- 
-                            !!! IMPORTANT !!!
-                            Replace the 'src' attribute below with the path to your QR code image from GitHub Pages.
-                        -->
+                        
                         <img src="./qr.jpg" 
                              alt="QR Code" 
                              class="w-64 h-64 md:w-80 md:h-80 rounded-md"
@@ -181,10 +172,7 @@
     </div>
 
     <script>
-        /**
-         * CMatrix/Digital Rain Effect
-         * This function sets up and runs the animation. It's called when the window is fully loaded.
-         */
+        
         function startMatrixAnimation() {
             const canvas = document.getElementById('matrix-canvas');
             const ctx = canvas.getContext('2d');
@@ -192,10 +180,9 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const nums = '01';
-            const hindi = 'क्रिप्टोनाइट';
-            const characters = latin + nums + hindi;
+            const russian = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+
+            const characters = russian;
 
             const fontSize = 16;
             let columns = Math.floor(canvas.width / fontSize);
@@ -238,10 +225,7 @@
             });
         }
 
-        /**
-         * Page Setup
-         * This function handles the routing and form logic. It runs when the DOM is ready.
-         */
+     
         function setupPage() {
             // --- Client-Side Router ---
             const pages = document.querySelectorAll('.page');
@@ -254,7 +238,7 @@
             window.addEventListener('hashchange', () => showPage(window.location.hash));
             showPage(window.location.hash); // Show initial page
             
-            // --- Login Form Logic ---
+            
             const loginForm = document.getElementById('login-form');
             const loginStatus = document.getElementById('login-status');
             loginForm.addEventListener('submit', function(event) {
@@ -278,9 +262,9 @@
             });
         }
 
-        // Wait for the DOM to be ready for routing/form logic
+        
         document.addEventListener('DOMContentLoaded', setupPage);
-        // Wait for everything (including fonts) to be loaded for the animation
+        
         window.addEventListener('load', startMatrixAnimation);
     </script>
 </body>
